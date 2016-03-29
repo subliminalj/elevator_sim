@@ -1,34 +1,39 @@
 #ifndef _ELEVATOR_H_
 #define _ELEVATOR_H_
+#include <vector>
 #include <queue>
 #include "rider.h"
+#include "floors.h"
 #include <iostream>
 #include <list>
 
 class elevator
 {
 private:
-	int floors;
+	int floornum;
 	int speed;
 	int total_served;
 	double arrival_rate;
-	std::queue<int> destination_q;
+	std::vector<int> destination_vec;
 	std::list<rider> passenger_list;
+	std::list<floors> individual_floors;
 
 public:
-	int get_floors() { return floors; }
+	elevator(int intfloors, int intspeed) { 
+		floors = intfloors;
+		speed = intspeed;
+	}
+	int get_floornum() { return floornum; }
 	int get_speed() { return speed; }
 	int get_total_served() { return total_served; }
 	double get_arrival_rate() { return arrival_rate; }
-	std::queue<int> get_queue() { return destination_q; }
+	std::vector<int> get_dest() { return destination_vec; }
 	std::list<rider> get_riders() { return passenger_list; }
-	bool empty() { return destination_q.empty(); }
+	std::list<floors> get_floors() { return individual_floors; }
+	bool empty() { return destination_vec.empty(); }
 
 
 };
-
-
-elevator::elevator();
 
 
 #endif
