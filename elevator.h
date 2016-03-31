@@ -19,8 +19,14 @@ private:
 	std::list<floors> individual_floors;
 
 public:
-	elevator(int intfloors, int intspeed) { 
-		floors = intfloors;
+	elevator(int intfloors, int intspeed) 
+	{ 
+		for (int i = 1; i <= intfloors; i++)
+		{
+			floors temp;
+			temp = floors(i, false, false);
+			individual_floors.push_back(temp);
+		}
 		speed = intspeed;
 	}
 	int get_floornum() { return floornum; }
@@ -31,9 +37,13 @@ public:
 	std::list<rider> get_riders() { return passenger_list; }
 	std::list<floors> get_floors() { return individual_floors; }
 	bool empty() { return destination_vec.empty(); }
-
-
+	void update();
 };
+
+elevator::update()
+{
+
+}
 
 
 #endif
