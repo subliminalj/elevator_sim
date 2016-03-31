@@ -15,7 +15,10 @@ private:
 
 };
 
-void elevator_sim::run_simulation() {}
+void elevator_sim::run_simulation() 
+{
+
+}
 void elevator_sim::print_stats() {}
 
 elevator_sim::elevator_sim(int timetorun)
