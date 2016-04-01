@@ -24,9 +24,6 @@
     <ClInclude Include="elevator_sim.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="floors.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="elevator.cpp">

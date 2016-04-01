@@ -11,39 +11,24 @@ class elevator
 {
 private:
 	int floornum;
-	int speed;
 	int total_served;
 	double arrival_rate;
-	std::vector<int> destination_vec;
-	std::list<rider> passenger_list;
-	std::list<floors> individual_floors;
-
+	bool goingup;
+	std::list<rider> passenger_list; // list of passengers with their own destination
+	std::list<rider> waiting_list; // list of passengers with their own destination
 public:
-	elevator(int intfloors, int intspeed) 
-	{ 
-		for (int i = 1; i <= intfloors; i++)
-		{
-			floors temp;
-			temp = floors(i, false, false);
-			individual_floors.push_back(temp);
-		}
-		speed = intspeed;
+	elevator()
+	{
 	}
 	int get_floornum() { return floornum; }
-	int get_speed() { return speed; }
 	int get_total_served() { return total_served; }
 	double get_arrival_rate() { return arrival_rate; }
-	std::vector<int> get_dest() { return destination_vec; }
+	int get_up() { return goingup; }
 	std::list<rider> get_riders() { return passenger_list; }
-	std::list<floors> get_floors() { return individual_floors; }
-	bool empty() { return destination_vec.empty(); }
+	std::list<rider> get_waitint() { return waiting_list; }
+	bool empty() { return passenger_list.empty(); }
 	void update();
 };
-
-elevator::update()
-{
-
-}
 
 
 #endif
