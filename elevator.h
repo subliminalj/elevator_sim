@@ -13,21 +13,18 @@ private:
 	int floornum;
 	int total_served;
 	double arrival_rate;
-	bool goingup;
-	std::list<rider> passenger_list; // list of passengers with their own destination
-	std::list<rider> waiting_list; // list of passengers with their own destination
+	std::list<rider> rider_list;
+	std::list<rider> waiting_list;
+
 public:
-	elevator()
-	{
-	}
+	elevator();
+	elevator();
 	int get_floornum() { return floornum; }
 	int get_total_served() { return total_served; }
 	double get_arrival_rate() { return arrival_rate; }
-	int get_up() { return goingup; }
-	std::list<rider> get_riders() { return passenger_list; }
-	std::list<rider> get_waitint() { return waiting_list; }
-	bool empty() { return passenger_list.empty(); }
-	void update();
+	std::list<rider> get_riders() { return rider_list; }
+	std::list<rider> get_waiting() { return waiting_list; }
+	bool empty() { return rider_list.empty(); }
 };
 
 
