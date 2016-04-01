@@ -150,9 +150,6 @@
     <ClInclude Include="elevator_sim.h" />
     <ClInclude Include="rider.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="elevator.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
