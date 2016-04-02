@@ -1,46 +1,22 @@
 #include "elevator.h"
-
+#include "rider.h"
 using namespace std;
 
-elevator::elevator(floors floorSelect, int intspeed, int id) 
+
+void elevator::add_rider(rider& newrider)
 {
-	floornum = floorSelect.floornumber; //originally just said floors. Is this what you meant?
-	elevDirection = floorSelect.direction;
-	speed = intspeed;
-	runID = ++id;
-}
+	list<rider>::iterator it = rider_list.begin();
 
-elevator::elevator(int floorSelect, int intspeed, int id)
-{
-	floornum = floorSelect; //originally just said floors. Is this what you meant?
-	elevDirection = floorSelect > destination.begin()->floornum;
-	speed = intspeed;
-	runID = id;
-}
-
-void elevator::add_rider(elevator& newFloor)
-{
-	list<elevator>::iterator iter = destination.begin();
-
-	if (newFloor.elevDirection == 0)
-		return;
-
-	while (newFloor.elevDirection != iter->elevDirection)
-		iter++;
-
-	for (iter; iter != destination.end(); iter++)
+	for (it = rider_list.begin(); it != rider_list; it++) 
 	{
-		if ((newFloor.elevDirection && newFloor.floornum < iter->floornum)
-			|| (!newFloor.elevDirection && newFloor.floornum > iter->floornum))
-		{
-			destination.insert(iter, newFloor);
-			break;
-		}
-
+		if (it->get_destination < newrider.get_destination)
+			rider_list.insert(it,newrider)
 	}
+	
+
 }
 
 void elevator::rider_destination()
 {
-	destination.pop_front();
+	//destination.pop_front();
 }
