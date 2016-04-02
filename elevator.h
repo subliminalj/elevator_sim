@@ -64,13 +64,19 @@ public:
 
 	}
 
-	void elevator::update()
+	void elevator::update(list<rider>& waiting_list, list<rider>& rider_list, list<rider>& disembarked)
 	{
 		list<rider>::iterator it = waiting_list.begin(); // init waiting list it
 		for (it = waiting_list.begin(); it != waiting_list.end(); it++) // cycle through waiting list
 		{
 			if (shaft1.floornum == it->get_current_floor() && shaft1.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
 				shaft1.add_rider(it)
+		}
+
+		list<rider>::iterator it = rider_list.begin();
+		for (it = rider_list.begin(); it != rider_list.end(); it++) // cycle through passenger list
+		{
+			it->current_floor = shaft1.floornum; // set all passengers current floor to the floor the elevator is on
 		}
 
 	}
