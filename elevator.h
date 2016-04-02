@@ -53,13 +53,27 @@ public:
 
 	void elevator::rider_destination(rider& thisrider)
 	{
+		list<rider>::iterator it = rider_list.begin();
+		for (it = rider_list.begin(); it != rider_list.end(); it++)
+		{	
 		if (thisrider.get_destination() == shaft1.floornum) // if the rider is at their destination
 			disembarked.push_back(thisrider) // add rider to list of served riders
 			rider_list.delete(thisrider); // remove rider from passenger list
+	
+		}
+
 	}
 
+	void elevator::update()
+	{
+		list<rider>::iterator it = waiting_list.begin(); // init waiting list it
+		for (it = waiting_list.begin(); it != waiting_list.end(); it++) // cycle through waiting list
+		{
+			if (shaft1.floornum == it->get_current_floor() && shaft1.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
+				shaft1.add_rider(it)
+		}
 
-
+	}
 
 };
 
