@@ -7,7 +7,7 @@ using namespace std;
 
 void main(void)
 {
-	elevator_sim() simulation;
+	elevator_sim simulation;
 	simulation.run_simulation();
 	simulation.print_stats();
 }
