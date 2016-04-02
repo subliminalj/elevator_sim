@@ -16,13 +16,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="elevator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rider.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="elevator_sim.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="elevator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
