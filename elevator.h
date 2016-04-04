@@ -46,22 +46,10 @@ public:
 
 		for (it = rider_list.begin(); it != rider_list; it++)
 		{
-			if (it->get_destination > newrider.get_destination || it->get_destination == NULL) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
-				rider_list.insert(it, newrider) // insert rider in order
+			if (it->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
+				rider_list.insert(it, newrider) // insert rider in order -- double check this sort
+				newrider.start_trip_time()
 		}
-	}
-
-	void elevator::rider_destination(rider& thisrider)
-	{
-		list<rider>::iterator it = rider_list.begin();
-		for (it = rider_list.begin(); it != rider_list.end(); it++)
-		{	
-		if (thisrider.get_destination() == shaft1.floornum) // if the rider is at their destination
-			disembarked.push_back(thisrider) // add rider to list of served riders
-			rider_list.delete(thisrider); // remove rider from passenger list
-	
-		}
-
 	}
 
 	void elevator::update(list<rider>& waiting_list, list<rider>& rider_list, list<rider>& disembarked, elevator& elev)
@@ -71,7 +59,11 @@ public:
 		for (it = waiting_list.begin(); it != waiting_list.end(); it++) // cycle through waiting list
 		{
 			if (elev.floornum == it->get_current_floor() && elev.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
+			{
 				elev.add_rider(it)
+				it->stop_wait_timer();
+				it->start_trip_timer();
+			}
 		}
 		//UPDATE FLOOR FOR RIDERS -- this may not be neccessary
 		list<rider>::iterator it = rider_list.begin();
@@ -88,13 +80,10 @@ public:
 				disembarked.push_back(it*); // add rider to disembarked list
 				rider_list.erase(it); // erase rider from passenger list
 				elev.add_total_served(); // add 1 to total served
+				it->stop_trip_timer();
 			}
 		}
-
-
-
 	}
-
 };
 
 

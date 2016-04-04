@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="elevator.h" />
     <ClInclude Include="elevator_sim.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="rider.h" />
   </ItemGroup>
   <ItemGroup>

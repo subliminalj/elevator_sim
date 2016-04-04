@@ -19,12 +19,9 @@ private:
 void elevator_sim::run_simulation(int initclock) 
 {
 	clock = initclock;
+	
+
 }
-void elevator_sim::print_stats() {}
-
-elevator_sim::elevator_sim()
-{
-
 
 void elevator_sim::print_stats()
 {
