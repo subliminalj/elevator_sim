@@ -3,7 +3,6 @@
 #include <vector>
 #include <queue>
 #include "rider.h"
-#include "floors.h"
 #include <iostream>
 #include <list>
 
@@ -37,10 +36,10 @@ public:
 	void set_riders(std::list<rider> riders) { rider_list = riders; }
 	void set_waiting(std::list<rider> waiting) { waiting_list = waiting; }
 	void set_disembarked(std::list<rider> dis) { disembarked = dis; }
-	bool empty() { return rider_list.empty(); }
-	update() {}
+	bool empty() { return rider_list.empty(); 
+	void update(list<rider>& waiting_list, list<rider>& rider_list, list<rider>& disembarked, elevator& elev);
 	
-	void elevator::add_rider(rider& newrider)
+	void elevator::add_rider(rider& newrider) // called when adding new passengers
 	{
 		list<rider>::iterator it = rider_list.begin(); // init it
 

@@ -15,17 +15,17 @@ private:
 	int id_num;
 
 public:	
-	rider(int arrival_time, int destination, int current_floor, bool goingup, int id_num) {
+	rider(int arrival_time, int destination, int current_floor, int id_num, elevator& elev) {
 		if (current_floor < destination)
 		{
 			goingup = true;
 		}
 		if (current_floor == destination)
 		{
-			//delete rider
+			//re randomize destination
 		}
 		start_wait_timer(); // start the waiting timer
-	
+		arrival_time = elev.get_clock();
 	}
 
 	int get_arrival_time() { return arrival_time; }
