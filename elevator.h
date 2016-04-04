@@ -64,20 +64,34 @@ public:
 
 	}
 
-	void elevator::update(list<rider>& waiting_list, list<rider>& rider_list, list<rider>& disembarked)
+	void elevator::update(list<rider>& waiting_list, list<rider>& rider_list, list<rider>& disembarked, elevator& elev)
 	{
+		//PICK UP PASSENGERS
 		list<rider>::iterator it = waiting_list.begin(); // init waiting list it
 		for (it = waiting_list.begin(); it != waiting_list.end(); it++) // cycle through waiting list
 		{
-			if (shaft1.floornum == it->get_current_floor() && shaft1.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
-				shaft1.add_rider(it)
+			if (elev.floornum == it->get_current_floor() && elev.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
+				elev.add_rider(it)
 		}
-
+		//UPDATE FLOOR FOR RIDERS -- this may not be neccessary
 		list<rider>::iterator it = rider_list.begin();
 		for (it = rider_list.begin(); it != rider_list.end(); it++) // cycle through passenger list
 		{
-			it->current_floor = shaft1.floornum; // set all passengers current floor to the floor the elevator is on
+			it->set_current_floor(elev.get_floornum()); // set all passengers current floor to the floor the elevator is on
 		}
+		//DISEMBARK
+		list<rider>::iterator it = rider_list.begin();
+		for (it = rider_list.begin(); it != rider_list.end(); it++) // cycle through passenger list
+		{
+			if (elev.get_floornum() == it->get_destination()) // if elev floornum == rider destination
+			{
+				disembarked.push_back(it*); // add rider to disembarked list
+				rider_list.erase(it); // erase rider from passenger list
+				elev.add_total_served(); // add 1 to total served
+			}
+		}
+
+
 
 	}
 

@@ -26,7 +26,9 @@ public:
 	int get_wait_time() { return wait_time; }
 	int get_trip_time() { return trip_time; }
 	int get_id() { return id_num; }
-
+	void set_current_floor(int floor) {
+		current_floor = floor;
+	}
 
 
 };
