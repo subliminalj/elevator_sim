@@ -16,7 +16,14 @@ private:
 
 public:	
 	rider(int arrival_time, int destination, int current_floor, bool goingup, int id_num) {
-		
+		if (current_floor < destination)
+		{
+			goingup = true;
+		}
+		if (current_floor == destination)
+		{
+			//delete rider
+		}
 	}
 
 	int get_arrival_time() { return arrival_time; }
@@ -26,9 +33,8 @@ public:
 	int get_wait_time() { return wait_time; }
 	int get_trip_time() { return trip_time; }
 	int get_id() { return id_num; }
-	void set_current_floor(int floor) {
-		current_floor = floor;
-	}
+	void set_current_floor(int floor) {	current_floor = floor; }
+	
 
 
 };
