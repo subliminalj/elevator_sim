@@ -24,7 +24,7 @@ public:
 		{
 			//delete rider
 		}
-		//start wait_time timer until the passenger is picked up
+		start_wait_timer(); // start the waiting timer
 	
 	}
 
@@ -36,6 +36,7 @@ public:
 	int get_trip_time() { return trip_time; }
 	int get_id() { return id_num; }
 	void set_current_floor(int floor) {	current_floor = floor; }
+	void start_wait_timer() {}//start the timer for waiting
 	void start_trip_timer(){} // start the timer for the elevator ride
 	void stop_wait_timer() {} // stop the wait timer when the wait is over - rider pickup
 	void stop_trip_timer() {} // stop the trip timer when arrived at destination

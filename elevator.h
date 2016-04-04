@@ -77,10 +77,10 @@ public:
 		{
 			if (elev.get_floornum() == it->get_destination()) // if elev floornum == rider destination
 			{
+				it->stop_trip_timer();
 				disembarked.push_back(it*); // add rider to disembarked list
 				rider_list.erase(it); // erase rider from passenger list
 				elev.add_total_served(); // add 1 to total served
-				it->stop_trip_timer();
 			}
 		}
 	}
