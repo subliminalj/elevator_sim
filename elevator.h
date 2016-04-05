@@ -1,5 +1,6 @@
 #ifndef _ELEVATOR_H_
 #define _ELEVATOR_H_
+
 #include <vector>
 #include <queue>
 #include "rider.h"
@@ -18,7 +19,8 @@ private:
 	std::list<rider> disembarked;
 public:
 	elevator() {};
-	elevator(int floors, double arrival) {
+	elevator(int floors, double arrival) 
+	{
 		maxfloor = floors;
 		arrival_rate = arrival;
 	}
@@ -38,8 +40,7 @@ public:
 	void set_waiting(std::list<rider> waiting) { waiting_list = waiting; }
 	void set_disembarked(std::list<rider> dis) { disembarked = dis; }
 	bool empty() { return rider_list.empty(); 
-	void update(list<rider>& waiting_list, list<rider>& rider_list, list<rider>& disembarked, elevator& elev);
-	
+		
 	void elevator::add_rider(rider& newrider) // called when adding new passengers
 	{
 		list<rider>::iterator it = rider_list.begin(); // init it
@@ -85,6 +86,5 @@ public:
 		}
 	}
 };
-
 
 #endif

@@ -3,8 +3,6 @@
 #include <iostream>
 #include <list>
 
-using namespace std;
-
 class elevator_sim
 {
 private:
