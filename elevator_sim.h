@@ -55,4 +55,12 @@ void elevator_sim::print_stats(std::list<rider>& disembarked, elevator& elev)
 	list<rider>::iterator it = disembarked.begin();
 	//for loop of disembarked to total average wait and average ride
 	for (it = disembarked.begin(); it != disembarked.end(); it++)
+	{
+		averagewait += it->get_wait_time();
+		averageride += it->get_ride_time();
+	}
+	averagewait /= disembarked.size();
+	averageride /= disembarked.size();
+	cout << "The average wait for each rider was " << averagewait / 60 << " minutes." << endl;
+	cout << "The average ride for each rider was " << averageride << " seconds." << endl;
 }

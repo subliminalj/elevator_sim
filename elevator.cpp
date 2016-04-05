@@ -4,7 +4,7 @@
 
 void main(void)
 {
-	elevator shaft1;
+	elevator shaft1(20,.1);
 	elevator_sim simulation;
 	list<rider> rider_list;
 	list<rider> waiting_list;
