@@ -17,6 +17,7 @@ private:
 	std::list<rider> waiting_list;
 	std::list<rider> disembarked;
 public:
+	elevator() {};
 	elevator(int floors, double arrival) {
 		maxfloor = floors;
 		arrival_rate = arrival;
