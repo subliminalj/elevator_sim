@@ -1,6 +1,6 @@
 #ifndef _RIDER_H_
 #define _RIDER_H_
-
+#include "elevator_sim.h"
 #include "elevator.h"
 
 class rider
@@ -15,7 +15,7 @@ private:
 	int id_num;
 
 public:	
-	rider(int arrival_time, int destination, int current_floor, int id_num, elevator& elev) {
+	rider(int arrival_time, int destination, int current_floor, int id_num, elevator_sim& elev) {
 		if (current_floor < destination)
 		{
 			goingup = true;
