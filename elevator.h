@@ -83,6 +83,20 @@ public:
 			}
 		}
 	}
+
+	void update_wait_timer(list<rider>& waitingRiderList, int floorDiff, int speed)
+	{
+		list<rider>::iterator witer;
+		for (witer = waitingRiderList.begin(); witer != waitingRiderList.end(); witer++)
+			witer->total_wait_timer(floorDiff*speed);
+	}
+
+	void update_trip_timer(list<rider>& tripRiderList, int floorDiff, int speed)
+	{
+		list<rider>::iterator titer;
+		for (titer = tripRiderList.begin(); titer != tripRiderList.end(); titer++)
+			titer->total_trip_timer(floorDiff*speed);
+	}
 };
 
 

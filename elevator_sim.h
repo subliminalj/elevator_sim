@@ -10,14 +10,35 @@ class elevator_sim
 public:
 	elevator_sim();
 
-	void run_simulation(int initclock);
+	void run_simulation()
+	{
+		int numRiders = 1;
+		int currTime = 0;
+		int maxRiders = randValue.next_int(20);
+		int maxLevel = randValue.next_int(20) + 1;
+		elevator simElev(maxLevel, 0.2);
+		
+		while (numRiders <= maxRiders)
+		{
+			if (randValue.next_double(0.2) == 0)
+			{
+				rider eleRider(currTime, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders, simElev);
+				numRiders++;
+			}
+
+
+			currTime++;
+			
+		}
+	};
 	void print_stats(std::list<rider>& disembarked);
 	int get_clock() { return clock;}
 
 private:
 	int clock;
 	int total_time;
-
+	double rate = 0.2;
+	Random randValue;
 };
 
 void elevator_sim::run_simulation(int initclock, elevator& elev) 
