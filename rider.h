@@ -18,13 +18,17 @@ private:
 	int id_num;
 
 public:	
-	rider(int arrival_time, int destination, int current_floor, int id_num) {
+	rider(int a_time, int dest, int cfloor, int id){
 		if (current_floor < destination)
 		{
 			goingup = true;
 		}
 		while (current_floor == destination)
 			destination = randomVal.next_int(20) + 1;
+		arrival_time = a_time;
+		destination = dest;
+		current_floor = cfloor;
+		id_num = id;
 
 		start_wait_timer(arrival_time); // start the waiting timer
 		
