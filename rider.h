@@ -18,7 +18,7 @@ private:
 	int id_num;
 
 public:	
-	rider(int arrival_time, int destination, int current_floor, int id_num, elevator& elev, elevator_sim& sim) {
+	rider(int arrival_time, int destination, int current_floor, int id_num, elevator& elev) {
 		if (current_floor < destination)
 		{
 			goingup = true;

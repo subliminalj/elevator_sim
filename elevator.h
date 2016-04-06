@@ -7,7 +7,7 @@
 #include <iostream>
 #include <list>
 
-class elevator
+class elevator 
 {
 private:
 	int floornum;
@@ -18,14 +18,12 @@ private:
 	std::list<rider> waiting_list;
 	std::list<rider> disembarked;
 public:
-	elevator() {};
+	elevator::elevator() {}
 	elevator(int floors, double arrival) 
 	{
 		maxfloor = floors;
 		arrival_rate = arrival;
 	}
-		
-		
 	int get_floornum() { return floornum; }
 	int get_maxfloor() { return maxfloor; }
 	int get_total_served() { return total_served; }
@@ -39,17 +37,18 @@ public:
 	void set_riders(std::list<rider> riders) { rider_list = riders; }
 	void set_waiting(std::list<rider> waiting) { waiting_list = waiting; }
 	void set_disembarked(std::list<rider> dis) { disembarked = dis; }
-	bool empty() { return rider_list.empty(); 
-		
+	bool empty() { return rider_list.empty(); }
 	void elevator::add_rider(rider& newrider) // called when adding new passengers
 	{
 		list<rider>::iterator it = rider_list.begin(); // init it
 
-		for (it = rider_list.begin(); it != rider_list; it++)
+		for (it = rider_list.begin(); it != rider_list.end(); it++)
 		{
 			if (it->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
+			{
 				rider_list.insert(it, newrider) // insert rider in order -- double check this sort
 				newrider.start_trip_time()
+			}
 		}
 	}
 
@@ -86,14 +85,14 @@ public:
 		}
 	}
 
-	void update_wait_timer(list<rider>& waitingRiderList, int floorDiff, int speed)
+	void elevator::update_wait_timer(list<rider>& waitingRiderList, int floorDiff, int speed)
 	{
 		list<rider>::iterator witer;
 		for (witer = waitingRiderList.begin(); witer != waitingRiderList.end(); witer++)
 			witer->total_wait_timer(floorDiff*speed);
 	}
 
-	void update_trip_timer(list<rider>& tripRiderList, int floorDiff, int speed)
+	void elevator::update_trip_timer(list<rider>& tripRiderList, int floorDiff, int speed)
 	{
 		list<rider>::iterator titer;
 		for (titer = tripRiderList.begin(); titer != tripRiderList.end(); titer++)
