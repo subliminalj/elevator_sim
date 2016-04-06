@@ -27,7 +27,7 @@ public:
 			destination = randomVal.next_int(20) + 1;
 
 		start_wait_timer(); // start the waiting timer
-		arrival_time = sim.get_clock();
+		
 	}
 
 	int get_arrival_time() { return arrival_time; }

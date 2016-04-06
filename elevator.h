@@ -7,7 +7,7 @@
 #include <iostream>
 #include <list>
 
-class elevator 
+class elevator
 {
 private:
 	int floornum;
@@ -19,7 +19,7 @@ private:
 	std::list<rider> disembarked;
 public:
 	elevator::elevator() {}
-	elevator(int floors, double arrival) 
+	elevator(int floors, double arrival)
 	{
 		maxfloor = floors;
 		arrival_rate = arrival;
@@ -38,6 +38,8 @@ public:
 	void set_waiting(std::list<rider> waiting) { waiting_list = waiting; }
 	void set_disembarked(std::list<rider> dis) { disembarked = dis; }
 	bool empty() { return rider_list.empty(); }
+	void update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev);
+
 	void elevator::add_rider(rider& newrider) // called when adding new passengers
 	{
 		list<rider>::iterator it = rider_list.begin(); // init it
@@ -46,19 +48,30 @@ public:
 		{
 			if (it->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
 			{
-				rider_list.insert(it, newrider) // insert rider in order -- double check this sort
-				newrider.start_trip_time()
+				rider_list.insert(it, newrider); // insert rider in order -- double check this sort
+				newrider.start_trip_time();
 			}
 		}
 	}
+	void elevator::add_waiter(rider& newrider) // called when adding new passengers
+	{
+		list<rider>::iterator it = waiting_list.begin(); // init it
 
-	void elevator::update(list<rider>& waiting_list, list<rider>& rider_list, list<rider>& disembarked, elevator& elev)
+		for (it = waiting_list.begin(); it != waiting_list.end(); it++)
+		{
+			waiting_list.push_back(newrider);
+			newrider.start_wait_time();
+		}
+	}
+
+
+	void elevator::update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev)
 	{
 		//PICK UP PASSENGERS
-		list<rider>::iterator it = waiting_list.begin(); // init waiting list it
-		for (it = waiting_list.begin(); it != waiting_list.end(); it++) // cycle through waiting list
+		list<rider>::iterator it = waiting.begin(); // init waiting list it
+		for (it = waiting.begin(); it != waiting.end(); it++) // cycle through waiting list
 		{
-			if (elev.floornum == it->get_current_floor() && elev.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
+			if (elev.get_floornum() == it->get_current_floor() && elev.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
 			{
 				elev.add_rider(it)
 				it->stop_wait_timer();
@@ -85,7 +98,7 @@ public:
 		}
 	}
 
-	void elevator::update_wait_timer(list<rider>& waitingRiderList, int floorDiff, int speed)
+	/*void elevator::update_wait_timer(list<rider>& waitingRiderList, int floorDiff, int speed)
 	{
 		list<rider>::iterator witer;
 		for (witer = waitingRiderList.begin(); witer != waitingRiderList.end(); witer++)
@@ -97,7 +110,7 @@ public:
 		list<rider>::iterator titer;
 		for (titer = tripRiderList.begin(); titer != tripRiderList.end(); titer++)
 			titer->total_trip_timer(floorDiff*speed);
-	}
-};
+	}*/
+}
 
 #endif
