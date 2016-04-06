@@ -2,20 +2,18 @@
 #include "rider.h"
 #include <iostream>
 #include <list>
+using namespace std;
 
 class elevator_sim
 {
 public:
-	elevator_sim();
-
-	void run_simulation()
+	void run_simulation(int initclock, elevator& simElev)
 	{
 		int numRiders = 1;
-		int currTime = 0;
+		int currTime = initclock;
 		int maxRiders = randValue.next_int(20);
 		int maxLevel = randValue.next_int(20) + 1;
-		elevator simElev(maxLevel, 0.2);
-		
+				
 		while (numRiders <= maxRiders)
 		{
 			if (randValue.next_double(0.2) == 0)
@@ -25,11 +23,11 @@ public:
 			}
 
 
-			currTime++;
-			
+			clock++;
+			numRiders++;
 		}
 	};
-	void print_stats(std::list<rider>& disembarked);
+	void print_stats(list<rider>& disembarked, elevator& elev);
 	int get_clock() { return clock;}
 
 private:
@@ -46,7 +44,7 @@ void elevator_sim::run_simulation(int initclock, elevator& elev)
 
 }
 
-void elevator_sim::print_stats(std::list<rider>& disembarked, elevator& elev)
+void elevator_sim::print_stats(list<rider>& disembarked, elevator& elev)
 {
 	cout << "The elevator ran for " << total_time / 60 << " minutes." << endl;
 	cout << "There were a total of " << elev.get_total_served() << " passengers." << endl;

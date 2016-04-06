@@ -2,7 +2,8 @@
 #define _RIDER_H_
 
 #include "Random.h"
-//#include "elevator.h"
+#include "elevator_sim.h"
+#include "elevator.h"
 
 class rider
 {
@@ -17,7 +18,7 @@ private:
 	int id_num;
 
 public:	
-	rider(int arrival_time, int destination, int current_floor, int id_num, elevator& elev) {
+	rider(int arrival_time, int destination, int current_floor, int id_num, elevator& elev, elevator_sim& sim) {
 		if (current_floor < destination)
 		{
 			goingup = true;
@@ -26,7 +27,7 @@ public:
 			destination = randomVal.next_int(20) + 1;
 
 		start_wait_timer(); // start the waiting timer
-		arrival_time = elev.get_clock();
+		arrival_time = sim.get_clock();
 	}
 
 	int get_arrival_time() { return arrival_time; }
@@ -41,7 +42,8 @@ public:
 	void total_trip_timer(int tTime) { trip_time += tTime; } // start the timer for the elevator ride
 	void stop_wait_timer() {} // stop the wait timer when the wait is over - rider pickup
 	void stop_trip_timer() {} // stop the trip timer when arrived at destination
-
+	void start_wait_timer() {}
+	void start_trip_timer() {}
 };
 
 
