@@ -1,5 +1,5 @@
-#include "elevator.h"
-#include "rider.h"
+//#include "elevator.h"
+//#include "rider.h"
 #include "elevator_sim.h"
 
 void main(void)

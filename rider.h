@@ -2,8 +2,8 @@
 #define _RIDER_H_
 
 #include "Random.h"
-#include "elevator_sim.h"
-#include "elevator.h"
+//#include "elevator_sim.h"
+//#include "elevator.h"
 
 class rider
 {
@@ -18,7 +18,7 @@ private:
 	int id_num;
 
 public:	
-	rider(int arrival_time, int destination, int current_floor, int id_num, elevator& elev) {
+	rider(int arrival_time, int destination, int current_floor, int id_num) {
 		if (current_floor < destination)
 		{
 			goingup = true;
