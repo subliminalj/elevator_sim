@@ -1,4 +1,5 @@
 #include "elevator.h"
+#include "rider.h"
 #include <iostream>
 #include <list>
 using namespace std;
@@ -15,7 +16,7 @@ public:
 		int maxLevel = randValue.next_int(20) + 1;
 
 		//program starts when a rider requests an elevator
-		rider eleRider(0, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders, simElev);
+		rider eleRider(0, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders);
 		simElev.add_rider(eleRider, clock);
 
 		while (numRiders <= maxRiders)
@@ -24,7 +25,7 @@ public:
 			if (randValue.next_double(0.2) == 0)
 			{
 				numRiders++;
-				rider eleRider(clock, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders, simElev);
+				rider eleRider(clock, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders);
 				simElev.add_waiter(eleRider, clock);
 			}
 

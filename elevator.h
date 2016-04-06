@@ -39,7 +39,7 @@ public:
 	void set_waiting(std::list<rider> waiting) { waiting_list = waiting; }
 	void set_disembarked(std::list<rider> dis) { disembarked = dis; }
 	bool empty() { return rider_list.empty(); }
-	void update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev);
+	void update(elevator& elev, int clock);
 
 	void elevator::add_rider(rider& newrider, int initTime) // called when adding new passengers
 	{
@@ -60,7 +60,7 @@ public:
 				minfloor = it->get_destination();
 		}
 	}
-	void elevator::add_waiter(rider& newrider) // called when adding new passengers
+	void elevator::add_waiter(rider& newrider, int initTime) // called when adding new passengers
 	{
 		list<rider>::iterator it = waiting_list.begin(); // init it
 		maxfloor = newrider.get_destination();
@@ -69,7 +69,7 @@ public:
 		for (it = waiting_list.begin(); it != waiting_list.end(); it++)
 		{
 			waiting_list.push_back(newrider);
-			newrider.start_wait_time(initTime);
+			newrider.start_wait_timer(initTime);
 		}
 		if (it->get_destination() > maxfloor)
 			maxfloor = it->get_destination();
@@ -78,7 +78,7 @@ public:
 	}
 
 
-	void elevator::update(elevator& elev, clock)
+	void elevator::update(elevator& elev, int clock)
 	{
 		//PICK UP PASSENGERS
 		list<rider>::iterator it = waiting_list.begin(); // init waiting list it
