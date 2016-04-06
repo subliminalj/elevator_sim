@@ -20,10 +20,13 @@ private:
 	std::list<rider> disembarked;
 public:
 	elevator::elevator() {}
-	elevator(int floors, double arrival)
+	elevator(int floors, double arrival, std::list<rider> riders, std::list<rider> waiting,	std::list<rider> disembark)
 	{
 		maxfloor = floors;
 		arrival_rate = arrival;
+		rider_list = riders;
+		waiting_list = waiting;
+		disembarked = disembark;
 	}
 	int get_floornum() { return floornum; }
 	int get_maxfloor() { return maxfloor; }
