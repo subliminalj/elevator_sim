@@ -38,7 +38,7 @@ public:
 	void set_waiting(std::list<rider> waiting) { waiting_list = waiting; }
 	void set_disembarked(std::list<rider> dis) { disembarked = dis; }
 	bool empty() { return rider_list.empty(); }
-	void update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev);
+	void update(list<rider>& waiting, list<rider>& riders, list<rider>& disembark, elevator& elev);
 
 	void elevator::add_rider(rider& newrider) // called when adding new passengers
 	{
@@ -49,7 +49,7 @@ public:
 			if (it->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
 			{
 				rider_list.insert(it, newrider); // insert rider in order -- double check this sort
-				newrider.start_trip_time();
+				newrider.start_trip_timer();
 			}
 		}
 	}
@@ -65,7 +65,7 @@ public:
 	}
 
 
-	void elevator::update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev)
+	void elevator::update(list<rider>& waiting, list<rider>& riders, list<rider>& disembark, elevator& elev)
 	{
 		//PICK UP PASSENGERS
 		list<rider>::iterator it = waiting.begin(); // init waiting list it
@@ -79,20 +79,20 @@ public:
 			}
 		}
 		//UPDATE FLOOR FOR RIDERS -- this may not be neccessary
-		list<rider>::iterator it = rider_list.begin();
-		for (it = rider_list.begin(); it != rider_list.end(); it++) // cycle through passenger list
+		list<rider>::iterator it = riders.begin();
+		for (it = riders.begin(); it != riders.end(); it++) // cycle through passenger list
 		{
 			it->set_current_floor(elev.get_floornum()); // set all passengers current floor to the floor the elevator is on
 		}
 		//DISEMBARK
-		list<rider>::iterator it = rider_list.begin();
-		for (it = rider_list.begin(); it != rider_list.end(); it++) // cycle through passenger list
+		list<rider>::iterator it = riders.begin();
+		for (it = riders.begin(); it != riders.end(); it++) // cycle through passenger list
 		{
 			if (elev.get_floornum() == it->get_destination()) // if elev floornum == rider destination
 			{
 				it->stop_trip_timer();
-				disembarked.push_back(it*); // add rider to disembarked list
-				rider_list.erase(it); // erase rider from passenger list
+				disembark.push_back(it*); // add rider to disembarked list
+				riders.erase(it); // erase rider from passenger list
 				elev.add_total_served(); // add 1 to total served
 			}
 		}
@@ -111,6 +111,6 @@ public:
 		for (titer = tripRiderList.begin(); titer != tripRiderList.end(); titer++)
 			titer->total_trip_timer(floorDiff*speed);
 	}*/
-}
+};
 
 #endif

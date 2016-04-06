@@ -7,7 +7,7 @@ using namespace std;
 class elevator_sim
 {
 public:
-	void run_simulation(int initclock, elevator& simElev)
+	void elevator_sim::run_simulation(int initclock, elevator& simElev)
 	{
 		int numRiders = 1;
 		int currTime = initclock;
