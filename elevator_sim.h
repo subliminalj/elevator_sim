@@ -14,7 +14,7 @@ public:
 		int maxRiders = randValue.next_int(20);
 		int maxLevel = randValue.next_int(20) + 1;
 
-		//program starts when a rier requests an elevator
+		//program starts when a rider requests an elevator
 		rider eleRider(0, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders, simElev);
 		simElev.add_rider(eleRider);
 
