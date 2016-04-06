@@ -11,7 +11,7 @@ class elevator
 {
 private:
 	int floornum;
-	int maxfloor;
+	int maxfloor, minfloor;
 	int total_served;
 	double arrival_rate;
 	std::list<rider> rider_list;
@@ -26,6 +26,7 @@ public:
 	}
 	int get_floornum() { return floornum; }
 	int get_maxfloor() { return maxfloor; }
+	int get_minfloor() { return minfloor; }
 	int get_total_served() { return total_served; }
 	double get_arrival_rate() { return arrival_rate; }
 	std::list<rider> get_riders() { return rider_list; }
@@ -40,32 +41,44 @@ public:
 	bool empty() { return rider_list.empty(); }
 	void update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev);
 
-	void elevator::add_rider(rider& newrider) // called when adding new passengers
+	void elevator::add_rider(rider& newrider, int initTime) // called when adding new passengers
 	{
 		list<rider>::iterator it = rider_list.begin(); // init it
+		maxfloor = newrider.get_destination();
+		minfloor = newrider.get_destination();
 
 		for (it = rider_list.begin(); it != rider_list.end(); it++)
 		{
 			if (it->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
 			{
 				rider_list.insert(it, newrider); // insert rider in order -- double check this sort
-				newrider.start_trip_time();
+				newrider.start_trip_timer(initTime);
 			}
+			if (it->get_destination() > maxfloor)
+				maxfloor = it->get_destination();
+			if (it->get_destination() < minfloor)
+				minfloor = it->get_destination();
 		}
 	}
-	void elevator::add_waiter(rider& newrider) // called when adding new passengers
+	void elevator::add_waiter(rider& newrider, int initTime) // called when adding new passengers
 	{
 		list<rider>::iterator it = waiting_list.begin(); // init it
+		maxfloor = newrider.get_destination();
+		minfloor = newrider.get_destination();
 
 		for (it = waiting_list.begin(); it != waiting_list.end(); it++)
 		{
 			waiting_list.push_back(newrider);
-			newrider.start_wait_time();
+			newrider.start_wait_time(initTime);
 		}
+		if (it->get_destination() > maxfloor)
+			maxfloor = it->get_destination();
+		if (it->get_destination() < minfloor)
+			minfloor = it->get_destination();
 	}
 
 
-	void elevator::update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev)
+	void elevator::update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev, int currTime)
 	{
 		//PICK UP PASSENGERS
 		list<rider>::iterator it = waiting.begin(); // init waiting list it
@@ -73,9 +86,9 @@ public:
 		{
 			if (elev.get_floornum() == it->get_current_floor() && elev.get_up() == it->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
 			{
-				elev.add_rider(it)
-				it->stop_wait_timer();
-				it->start_trip_timer();
+				elev.add_rider(*it)
+				it->stop_wait_timer(currTime);
+				it->start_trip_timer(currTime);
 			}
 		}
 		//UPDATE FLOOR FOR RIDERS -- this may not be neccessary
@@ -90,10 +103,10 @@ public:
 		{
 			if (elev.get_floornum() == it->get_destination()) // if elev floornum == rider destination
 			{
-				it->stop_trip_timer();
-				disembarked.push_back(it*); // add rider to disembarked list
+				it->stop_trip_timer(currTime);
+				disembarked.push_back(*it); // add rider to disembarked list
 				rider_list.erase(it); // erase rider from passenger list
-				elev.add_total_served(); // add 1 to total served
+				elev.add_total_served(currTime); // add 1 to total served
 			}
 		}
 	}
