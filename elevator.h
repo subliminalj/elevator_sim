@@ -14,7 +14,7 @@ private:
 	int maxfloor, minfloor;
 	int total_served;
 	double arrival_rate;
-	bool goingup;
+	bool goingup = 1;
 	std::list<rider> rider_list;
 	std::list<rider> waiting_list;
 	std::list<rider> disembarked;
