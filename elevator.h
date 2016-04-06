@@ -78,7 +78,7 @@ public:
 	}
 
 
-	void elevator::update(list<rider>& waiting, list<rider>& rider, list<rider>& disembark, elevator& elev, int currTime)
+	void elevator::update(list<rider>& waiting, list<rider>& riders, list<rider>& disembark, elevator& elev, int currTime)
 	{
 		//PICK UP PASSENGERS
 		list<rider>::iterator it = waiting.begin(); // init waiting list it
@@ -93,19 +93,19 @@ public:
 		}
 		//UPDATE FLOOR FOR RIDERS -- this may not be neccessary
 		list<rider>::iterator it = rider_list.begin();
-		for (it = rider_list.begin(); it != rider_list.end(); it++) // cycle through passenger list
+		for (it = riders.begin(); it != riders.end(); it++) // cycle through passenger list
 		{
 			it->set_current_floor(elev.get_floornum()); // set all passengers current floor to the floor the elevator is on
 		}
 		//DISEMBARK
-		list<rider>::iterator it = rider_list.begin();
-		for (it = rider_list.begin(); it != rider_list.end(); it++) // cycle through passenger list
+		list<rider>::iterator it = riders.begin();
+		for (it = riders.begin(); it != riders.end(); it++) // cycle through passenger list
 		{
 			if (elev.get_floornum() == it->get_destination()) // if elev floornum == rider destination
 			{
 				it->stop_trip_timer(currTime);
-				disembarked.push_back(*it); // add rider to disembarked list
-				rider_list.erase(it); // erase rider from passenger list
+				disembark.push_back(*it); // add rider to disembarked list
+				riders.erase(it); // erase rider from passenger list
 				elev.add_total_served(currTime); // add 1 to total served
 			}
 		}
