@@ -1,5 +1,4 @@
 #include "elevator.h"
-#include "rider.h"
 #include <iostream>
 #include <list>
 using namespace std;
@@ -10,22 +9,40 @@ public:
 	void run_simulation(int initclock, elevator& simElev)
 	{
 		int numRiders = 1;
-		int currTime = initclock;
+		int currentFloor = 1;
+		bool goingUp = 1;
 		int maxRiders = randValue.next_int(20);
 		int maxLevel = randValue.next_int(20) + 1;
 
+		//program starts when a rier requests an elevator
+		rider eleRider(0, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders, simElev);
+		simElev.add_rider(eleRider);
+
 		while (numRiders <= maxRiders)
 		{
+			clock++;
 			if (randValue.next_double(0.2) == 0)
 			{
-				rider eleRider(currTime, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders, simElev);
 				numRiders++;
+				rider eleRider(clock, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders, simElev);
+				simElev.add_waiter(eleRider, clock);
 			}
 
+			simElev.update(simElev, clock);
 
-			clock++;
-			numRiders++;
+			if (currentFloor == simElev.get_maxfloor())
+				goingUp = 0;
+			else if (currentFloor == simElev.get_minfloor())
+				goingUp = 1;
+
+			if (goingUp = 0)
+				currentFloor--;
+			else
+				currentFloor++;
+			//clock++;
 		}
+
+		simElev.update(simElev);
 
 	}
 	
