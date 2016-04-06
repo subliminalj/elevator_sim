@@ -2,7 +2,7 @@
 #define _RIDER_H_
 
 #include "Random.h"
-#include "elevator_sim.h"
+//#include "elevator_sim.h"
 //#include "elevator.h"
 
 class rider
