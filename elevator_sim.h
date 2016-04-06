@@ -1,4 +1,5 @@
 #include "elevator.h"
+#include "rider.h"
 #include <iostream>
 #include <list>
 using namespace std;
