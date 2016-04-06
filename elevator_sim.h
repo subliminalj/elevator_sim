@@ -52,8 +52,8 @@ public:
 	{
 		cout << "The elevator ran for " << total_time / 60 << " minutes." << endl;
 		cout << "There were a total of " << elev.get_total_served() << " passengers." << endl;
-		int averagewait;
-		int averageride;
+		int averagewait = 0;
+		int averageride = 0;
 		list<rider>::iterator it = disembark.begin();
 		//for loop of disembarked to total average wait and average ride
 		for (it = disembark.begin(); it != disembark.end(); it++)

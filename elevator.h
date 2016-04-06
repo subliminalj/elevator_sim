@@ -14,6 +14,7 @@ private:
 	int maxfloor, minfloor;
 	int total_served;
 	double arrival_rate;
+	bool goingup;
 	std::list<rider> rider_list;
 	std::list<rider> waiting_list;
 	std::list<rider> disembarked;
@@ -29,6 +30,7 @@ public:
 	int get_minfloor() { return minfloor; }
 	int get_total_served() { return total_served; }
 	double get_arrival_rate() { return arrival_rate; }
+	bool get_up() { return goingup; }
 	std::list<rider> get_riders() { return rider_list; }
 	std::list<rider> get_waiting() { return waiting_list; }
 	std::list<rider> get_disembarked() { return disembarked; }
@@ -100,14 +102,14 @@ public:
 			rit->set_current_floor(elev.get_floornum()); // set all passengers current floor to the floor the elevator is on
 		}
 		//DISEMBARK
-		std::list<rider>::iterator rit = rider_list.begin();
-		for (rit = rider_list.begin(); rit != rider_list.end(); rit++) // cycle through passenger list
+		std::list<rider>::iterator dit = rider_list.begin();
+		for (dit = rider_list.begin(); dit != rider_list.end(); dit++) // cycle through passenger list
 		{
-			if (elev.get_floornum() == rit->get_destination()) // if elev floornum == rider destination
+			if (elev.get_floornum() == dit->get_destination()) // if elev floornum == rider destination
 			{
-				rit->stop_trip_timer(clock);
-				disembarked.push_back(*rit); // add rider to disembarked list
-				rider_list.erase(rit); // erase rider from passenger list
+				dit->stop_trip_timer(clock);
+				disembarked.push_back(*dit); // add rider to disembarked list
+				rider_list.erase(dit); // erase rider from passenger list
 				elev.add_total_served(); // add 1 to total served
 			}
 		}
