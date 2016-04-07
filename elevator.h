@@ -10,9 +10,9 @@
 class elevator
 {
 private:
-	int floornum;
+	int floornum = 1;
 	int maxfloor, minfloor;
-	int total_served;
+	int total_served = 0;
 	double arrival_rate;
 	bool goingup = 1;
 	std::list<rider> rider_list;
@@ -49,18 +49,25 @@ public:
 	void add_waiter(rider&, int);
 	void update(elevator&, int);
 };
-	void elevator::add_rider(rider& newrider, int initTime) // called when adding new passengers
+	void elevator::add_rider(rider& newrider, int rTime) // called when adding new passengers
 	{
 		std::list<rider>::iterator r_addit = rider_list.begin(); // init it
 		maxfloor = newrider.get_destination();
 		minfloor = newrider.get_destination();
-
+		if (empty())
+		{
+			rider_list.insert(r_addit, newrider); // insert rider in order -- double check this sort
+			newrider.stop_wait_timer(rTime);
+			newrider.start_trip_timer(rTime);
+			return;
+		}
 		for (r_addit = rider_list.begin(); r_addit != rider_list.end(); r_addit++)
 		{
-			if (r_addit->get_destination() > newrider.get_destination() || rider_list.empty()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
+			if (r_addit->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
 			{
 				rider_list.insert(r_addit, newrider); // insert rider in order -- double check this sort
-				newrider.start_trip_timer(initTime);
+				newrider.stop_wait_timer(rTime);
+				newrider.start_trip_timer(rTime);
 			}
 			if (r_addit->get_destination() > maxfloor)
 				maxfloor = r_addit->get_destination();
@@ -68,14 +75,11 @@ public:
 				minfloor = r_addit->get_destination();
 		}
 	}
-	void elevator::add_waiter(rider& newrider, int initTime) // called when adding new passengers
+	void elevator::add_waiter(rider& newrider, int wTime) // called when adding new passengers
 	{
-		maxfloor = newrider.get_destination();
-		minfloor = newrider.get_destination();
-
 		waiting_list.push_back(newrider);
-		newrider.start_wait_timer(initTime);
-		
+		newrider.start_wait_timer(wTime);
+		std::cout << newrider.get_destination() << " _ " << newrider.get_current_floor() << std::endl;
 		if (newrider.get_destination() > maxfloor)
 			maxfloor = newrider.get_destination();
 		if (newrider.get_destination() < minfloor)
@@ -89,9 +93,9 @@ public:
 		std::list<rider>::iterator wit = waiting_list.begin(); // init waiting list it
 		for (wit = waiting_list.begin(); wit != waiting_list.end(); wit++) // cycle through waiting list
 		{
-			if (elev.get_floornum() == wit->get_current_floor() && elev.get_up() == wit->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
+			if (get_floornum() == wit->get_current_floor() && get_up() == wit->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
 			{
-				elev.add_rider(*wit, clock);
+				add_rider(*wit, clock);
 				wit->stop_wait_timer(clock);
 				wit->start_trip_timer(clock);
 			}

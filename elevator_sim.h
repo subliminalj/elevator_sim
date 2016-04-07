@@ -1,7 +1,7 @@
 #include "elevator.h"
-#include "rider.h"
-#include <iostream>
-#include <list>
+//#include "rider.h"
+//#include <iostream>
+//#include <list>
 using namespace std;
 
 class elevator_sim
@@ -9,40 +9,44 @@ class elevator_sim
 public:
 	void elevator_sim::run_simulation(int initclock, elevator& simElev)
 	{
-		int clock = 0;
 		int numRiders = 1;
 		int currentFloor = 1;
 		bool goingUp = 1;
-		int maxRiders = randValue.next_int(20);
-		int maxLevel = randValue.next_int(20) + 1;
-	
-		//program starts when a rider requests an elevator
-		rider initialRider(0, 5, 4, numRiders);
-		simElev.add_rider(initialRider, clock);
+		int maxRiders = rand() % 20 + 1;
+		int maxLevel = rand() % 20 + 1;
 
-		while (numRiders <= maxRiders)
+		//program starts when a rider requests an elevator. Begins on bottom (1st) floor
+		rider riders[50];
+		riders[numRiders - 1]={ clock, rand() % 20 + 1, 1, numRiders };
+		simElev.add_waiter(riders[numRiders-1], clock);
+
+		while (numRiders < maxRiders)
 		{
 			clock++;
-			if (randValue.next_double(0.2) == 0)
+			srand(clock);
+
+			if ( rand()%5 == 1)
 			{
 				numRiders++;
-				rider eleRider(clock, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders);
-				simElev.add_waiter(eleRider, clock);
+				rand() % 20 + 1;
+				riders[numRiders - 1] = { clock, rand()%20 + 1, rand() % 20 + 1, numRiders };
+				simElev.add_waiter(riders[numRiders - 1], clock);
 			}
-
+			if (riders[numRiders - 1].get_destination() == simElev.get_floornum())
+				simElev.add_rider(riders[numRiders - 1], 2);
 			simElev.update(simElev, clock);
 
-			if (currentFloor == simElev.get_maxfloor())
+			if (currentFloor == simElev.get_maxfloor() || currentFloor == maxLevel)
 				goingUp = 0;
-			else if (currentFloor == simElev.get_minfloor())
+			else if (currentFloor == simElev.get_minfloor() || currentFloor == 1)
 				goingUp = 1;
-
-			if (goingUp == 0)
-				currentFloor--;
-			else
+			
+			if (goingUp == 1)
 				currentFloor++;
+			else
+				currentFloor--;
+			simElev.set_floornum(currentFloor);
 		}
-
 		simElev.update(simElev, clock);
 
 	}
@@ -50,7 +54,7 @@ public:
 	int get_clock() { return clock;}
 	void elevator_sim::print_stats(list<rider>& disembark, elevator& elev)
 	{
-		cout << "The elevator ran for " << total_time / 60 << " minutes." << endl;
+		cout << "The elevator ran for " << clock << " seconds." << endl;
 		cout << "There were a total of " << elev.get_total_served() << " passengers." << endl;
 		int averagewait = 0;
 		int averageride = 0;
@@ -68,8 +72,8 @@ public:
 	}
 
 private:
-	int clock;
-	int total_time;
+	int clock = 0;
+	int total_time = 0;
 	double rate = 0.2;
 	Random randValue;
 };
