@@ -15,10 +15,11 @@ public:
 	}
 
 	int next_int(int n) {
-		return rand() % n;
+		return int(next_double() * n);
 	}
 
-	double next_double(double m) {
-		return (rand() % int(100*m))/100;
+	double next_double() {
+		double num = double(std::rand()) / RAND_MAX;
+		return num;
 	}
 };
