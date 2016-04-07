@@ -23,6 +23,7 @@ public:
 	elevator(int floors, double arrival, std::list<rider> riders, std::list<rider> waiting,	std::list<rider> disembark)
 	{
 		maxfloor = floors;
+		minfloor = 1;
 		arrival_rate = arrival;
 		rider_list = riders;
 		waiting_list = waiting;
@@ -50,14 +51,13 @@ public:
 };
 	void elevator::add_rider(rider& newrider, int initTime) // called when adding new passengers
 	{
-		std::cout << newrider.get_current_floor() << " ";
 		std::list<rider>::iterator r_addit = rider_list.begin(); // init it
 		maxfloor = newrider.get_destination();
 		minfloor = newrider.get_destination();
 
 		for (r_addit = rider_list.begin(); r_addit != rider_list.end(); r_addit++)
 		{
-			if (r_addit->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
+			if (r_addit->get_destination() > newrider.get_destination() || rider_list.empty()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
 			{
 				rider_list.insert(r_addit, newrider); // insert rider in order -- double check this sort
 				newrider.start_trip_timer(initTime);
@@ -70,11 +70,12 @@ public:
 	}
 	void elevator::add_waiter(rider& newrider, int initTime) // called when adding new passengers
 	{
-		std::cout << newrider.get_current_floor() << "-";
+		maxfloor = newrider.get_destination();
+		minfloor = newrider.get_destination();
 
 		waiting_list.push_back(newrider);
 		newrider.start_wait_timer(initTime);
-
+		
 		if (newrider.get_destination() > maxfloor)
 			maxfloor = newrider.get_destination();
 		if (newrider.get_destination() < minfloor)
@@ -100,7 +101,6 @@ public:
 		for (rit = rider_list.begin(); rit != rider_list.end(); rit++) // cycle through passenger list
 		{
 			rit->set_current_floor(elev.get_floornum()); // set all passengers current floor to the floor the elevator is on
-			std::cout << elev.get_floornum();
 		}
 		//DISEMBARK
 		std::list<rider>::iterator dit = rider_list.begin();
