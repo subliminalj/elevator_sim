@@ -50,6 +50,7 @@ public:
 };
 	void elevator::add_rider(rider& newrider, int initTime) // called when adding new passengers
 	{
+		std::cout << newrider.get_current_floor() << " ";
 		std::list<rider>::iterator r_addit = rider_list.begin(); // init it
 		maxfloor = newrider.get_destination();
 		minfloor = newrider.get_destination();
@@ -69,19 +70,15 @@ public:
 	}
 	void elevator::add_waiter(rider& newrider, int initTime) // called when adding new passengers
 	{
-		std::list<rider>::iterator w_addit = waiting_list.begin(); // init it
-		maxfloor = newrider.get_destination();
-		minfloor = newrider.get_destination();
+		std::cout << newrider.get_current_floor() << "-";
 
-		for (w_addit = waiting_list.begin(); w_addit != waiting_list.end(); w_addit++)
-		{
-			waiting_list.push_back(newrider);
-			newrider.start_wait_timer(initTime);
-		}
-		if (w_addit->get_destination() > maxfloor)
-			maxfloor = w_addit->get_destination();
-		if (w_addit->get_destination() < minfloor)
-			minfloor = w_addit->get_destination();
+		waiting_list.push_back(newrider);
+		newrider.start_wait_timer(initTime);
+
+		if (newrider.get_destination() > maxfloor)
+			maxfloor = newrider.get_destination();
+		if (newrider.get_destination() < minfloor)
+			minfloor = newrider.get_destination();
 	}
 
 
@@ -103,6 +100,7 @@ public:
 		for (rit = rider_list.begin(); rit != rider_list.end(); rit++) // cycle through passenger list
 		{
 			rit->set_current_floor(elev.get_floornum()); // set all passengers current floor to the floor the elevator is on
+			std::cout << elev.get_floornum();
 		}
 		//DISEMBARK
 		std::list<rider>::iterator dit = rider_list.begin();

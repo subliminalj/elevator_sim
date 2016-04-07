@@ -12,24 +12,26 @@ public:
 		int numRiders = 1;
 		int currentFloor = 1;
 		bool goingUp = 1;
-		int maxRiders = randValue.next_int(20);
+		Random randValue;
+		int maxRiders = randValue.next_int(20) + 1;
 		int maxLevel = randValue.next_int(20) + 1;
-		//Random initRand(23);
 
 		//program starts when a rider requests an elevator
-		rider initialRider(0, 5, 4, numRiders);
-		simElev.add_rider(initialRider, clock);
+		rider firstRider(clock, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders);
+		simElev.add_waiter(firstRider, clock);
 
 		while (numRiders <= maxRiders)
 		{
 			clock++;
+			rider newRider(clock, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders);
 			if (randValue.next_double(0.2) == 0)
 			{
 				numRiders++;
-				rider eleRider(clock, randValue.next_int(maxLevel) + 1, randValue.next_int(maxLevel) + 1, numRiders);
-				simElev.add_waiter(eleRider, clock);
+				simElev.add_waiter(newRider, clock);
 			}
-
+			cout << randValue.next_double(0.2) << endl;
+			if (currentFloor == simElev.get_floornum())
+				simElev.add_rider(newRider, clock);
 			simElev.update(simElev, clock);
 
 			if (currentFloor == simElev.get_maxfloor())
@@ -42,8 +44,7 @@ public:
 			else
 				currentFloor++;
 		}
-
-		simElev.update(simElev, clock);
+		//simElev.update(simElev, clock);
 
 	}
 	
@@ -68,9 +69,8 @@ public:
 	}
 
 private:
-	int clock;
-	int total_time;
+	int clock = 0;
+	int total_time = 0;
 	double rate = 0.2;
-	Random randValue;
 };
 

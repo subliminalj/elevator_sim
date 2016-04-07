@@ -23,12 +23,12 @@ public:
 		{
 			goingup = true;
 		}
-		while (current_floor == destination)
-			destination = randomVal.next_int(20) + 1;
 		arrival_time = a_time;
 		destination = dest;
 		current_floor = cfloor;
 		id_num = id;
+		while (current_floor == destination)
+			destination = randomVal.next_int(20) + 1;
 
 		start_wait_timer(arrival_time); // start the waiting timer
 		
