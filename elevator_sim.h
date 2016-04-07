@@ -9,6 +9,7 @@ class elevator_sim
 public:
 	void elevator_sim::run_simulation(int initclock, elevator& simElev)
 	{
+		int clock = 0;
 		int numRiders = 1;
 		int currentFloor = 1;
 		bool goingUp = 1;

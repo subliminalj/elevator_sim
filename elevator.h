@@ -23,6 +23,7 @@ public:
 	elevator(int floors, double arrival, std::list<rider> riders, std::list<rider> waiting,	std::list<rider> disembark)
 	{
 		maxfloor = floors;
+		minfloor = 1;
 		arrival_rate = arrival;
 		rider_list = riders;
 		waiting_list = waiting;
@@ -56,7 +57,7 @@ public:
 
 		for (r_addit = rider_list.begin(); r_addit != rider_list.end(); r_addit++)
 		{
-			if (r_addit->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
+			if (r_addit->get_destination() > newrider.get_destination() || rider_list.empty()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
 			{
 				rider_list.insert(r_addit, newrider); // insert rider in order -- double check this sort
 				newrider.start_trip_timer(initTime);
