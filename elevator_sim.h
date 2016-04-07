@@ -37,11 +37,11 @@ public:
 			simElev.update(simElev, clock);
 
 			if (simElev.get_floornum() == simElev.get_maxfloor())
-				goingUp = 0;
+				simElev.set_up(0);
 			else if (simElev.get_floornum() == simElev.get_minfloor())
-				goingUp = 1;
+				simElev.set_up(1);
 
-			if (goingUp == 0)
+			if (simElev.get_up() == 0)
 				simElev.set_floornum(simElev.get_floornum()-1);
 			else
 				simElev.set_floornum(simElev.get_floornum() +1);

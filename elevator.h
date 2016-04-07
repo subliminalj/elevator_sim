@@ -39,6 +39,7 @@ public:
 	std::list<rider> get_waiting() { return waiting_list; }
 	std::list<rider> get_disembarked() { return disembarked; }
 	void set_floornum(int floor) { floornum = floor; }
+	void set_up(bool up) { goingup = up; }
 	void add_total_served() { total_served++; }
 	void set_arrival_rate(double arrive) { arrival_rate = arrive; }
 	void set_riders(std::list<rider> riders) { rider_list = riders; }
