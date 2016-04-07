@@ -14,38 +14,37 @@ public:
 		bool goingUp = 1;
 		int maxRiders = rand() % 20 + 1;
 		int maxLevel = rand() % 20 + 1;
-
-		//program starts when a rider requests an elevator. Begins on bottom (1st) floor
-		rider riders[50];
-		riders[numRiders - 1]={ clock, rand() % 20 + 1, 1, numRiders };
-		simElev.add_waiter(riders[numRiders-1], clock);
-
+		
 		while (numRiders < maxRiders)
 		{
-			clock++;
-			srand(clock);
-
-			if ( rand()%5 == 1)
+			rider newRider(clock, rand() % 20 + 1, rand() % 20 + 1, numRiders); //initializes a new rider
+			if (numRiders == 1) // first rider is added on the first iteration of the loop
 			{
+				simElev.add_waiter(newRider, clock);
 				numRiders++;
-				rand() % 20 + 1;
-				riders[numRiders - 1] = { clock, rand()%20 + 1, rand() % 20 + 1, numRiders };
-				simElev.add_waiter(riders[numRiders - 1], clock);
 			}
-			if (riders[numRiders - 1].get_destination() == simElev.get_floornum())
-				simElev.add_rider(riders[numRiders - 1], 2);
+			srand(clock); //resets rand based on clock value
+			if ( rand()%5 == 0)
+			{
+				simElev.add_waiter(newRider, clock); //adds initialized rider only if randomizer matches 0, allowing the elevator to transverse floors without new riders being generated
+				numRiders++;
+			}
+			//if (newRider.get_current_floor() == simElev.get_floornum())
+			//	simElev.add_rider(newRider, 2);
 			simElev.update(simElev, clock);
-
+			//checks if elevator direction needs to be changed
 			if (currentFloor == simElev.get_maxfloor() || currentFloor == maxLevel)
 				goingUp = 0;
 			else if (currentFloor == simElev.get_minfloor() || currentFloor == 1)
 				goingUp = 1;
-			
+			//change floor based on direction
 			if (goingUp == 1)
 				currentFloor++;
 			else
 				currentFloor--;
 			simElev.set_floornum(currentFloor);
+
+			clock++;
 		}
 		simElev.update(simElev, clock);
 

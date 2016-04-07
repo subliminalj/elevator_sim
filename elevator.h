@@ -54,9 +54,10 @@ public:
 		std::list<rider>::iterator r_addit = rider_list.begin(); // init it
 		maxfloor = newrider.get_destination();
 		minfloor = newrider.get_destination();
-		if (empty())
+		//adds rider w/o sorting if list is empty
+		if (rider_list.empty())
 		{
-			rider_list.insert(r_addit, newrider); // insert rider in order -- double check this sort
+			rider_list.push_back(newrider); 
 			newrider.stop_wait_timer(rTime);
 			newrider.start_trip_timer(rTime);
 			return;
