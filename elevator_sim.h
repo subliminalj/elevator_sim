@@ -15,8 +15,7 @@ public:
 		bool goingUp = 1;
 		int maxRiders = randValue.next_int(20);
 		int maxLevel = randValue.next_int(20) + 1;
-		//Random initRand(23);
-
+	
 		//program starts when a rider requests an elevator
 		rider initialRider(0, 5, 4, numRiders);
 		simElev.add_rider(initialRider, clock);
