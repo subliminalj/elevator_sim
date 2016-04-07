@@ -12,7 +12,7 @@ public:
 		int numRiders = 1;
 		//int currentFloor = 1;
 		bool goingUp = 1;
-		int maxRiders = rand() % 20 + 1;
+		int maxRiders = rand() % 20 + 1; // why is max riders random?
 		int maxLevel = rand() % 20 + 1;
 	
 		//program starts when a rider requests an elevator. Begins on bottom (1st) floor
@@ -20,7 +20,7 @@ public:
 		riders[numRiders - 1]={ clock, rand() % 20 + 1, 1, numRiders };
 		simElev.add_waiter(riders[numRiders-1], clock);
 
-		while (numRiders < maxRiders)
+		while (numRiders < maxRiders) // what is maxriders and why is it the stopping point for elevator moving?
 		{
 			clock++;
 			srand(clock);
@@ -36,17 +36,17 @@ public:
 				simElev.add_rider(riders[numRiders - 1], 2);
 			simElev.update(simElev, clock);
 
-			if (simElev.get_floornum() == simElev.get_maxfloor())
-				simElev.set_up(0);
-			else if (simElev.get_floornum() == simElev.get_minfloor())
-				simElev.set_up(1);
+			if (simElev.get_floornum() == simElev.get_maxfloor()) // if currentfloor = maxfloor set going up to false
+				simElev.set_up(false);
+			else if (simElev.get_floornum() == simElev.get_minfloor()) // if currentfloor = minfloor set going up to true
+				simElev.set_up(true);
 
-			if (simElev.get_up() == 0)
+			if (simElev.get_up() == false) // if going up is false go down one floor
 				simElev.set_floornum(simElev.get_floornum()-1);
 			else
-				simElev.set_floornum(simElev.get_floornum() +1);
+				simElev.set_floornum(simElev.get_floornum() +1); // else go up one floor
 		}
-		simElev.update(simElev, clock);
+		simElev.update(simElev, clock); // check for people getting on and off
 
 	}
 	

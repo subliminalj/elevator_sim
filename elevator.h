@@ -57,7 +57,7 @@ public:
 		minfloor = newrider.get_destination();
 		if (empty())
 		{
-			rider_list.insert(r_addit, newrider); // insert rider in order -- double check this sort
+			rider_list.insert(r_addit, newrider);
 			newrider.stop_wait_timer(rTime);
 			newrider.start_trip_timer(rTime);
 			return;
@@ -76,7 +76,7 @@ public:
 				minfloor = r_addit->get_destination();
 		}
 	}
-	void elevator::add_waiter(rider& newrider, int wTime) // called when adding new passengers
+	void elevator::add_waiter(rider& newrider, int wTime) // called when adding new passengers to the waiting list
 	{
 		waiting_list.push_back(newrider);
 		newrider.start_wait_timer(wTime);
