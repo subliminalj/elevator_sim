@@ -70,19 +70,16 @@ public:
 	}
 	void elevator::add_waiter(rider& newrider, int initTime) // called when adding new passengers
 	{
-		std::list<rider>::iterator w_addit = waiting_list.begin(); // init it
 		maxfloor = newrider.get_destination();
 		minfloor = newrider.get_destination();
 
-		for (w_addit = waiting_list.begin(); w_addit != waiting_list.end(); w_addit++)
-		{
-			waiting_list.push_back(newrider);
-			newrider.start_wait_timer(initTime);
-		}
-		if (w_addit->get_destination() > maxfloor)
-			maxfloor = w_addit->get_destination();
-		if (w_addit->get_destination() < minfloor)
-			minfloor = w_addit->get_destination();
+		waiting_list.push_back(newrider);
+		newrider.start_wait_timer(initTime);
+		
+		if (newrider.get_destination() > maxfloor)
+			maxfloor = newrider.get_destination();
+		if (newrider.get_destination() < minfloor)
+			minfloor = newrider.get_destination();
 	}
 
 
