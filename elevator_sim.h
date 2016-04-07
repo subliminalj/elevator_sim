@@ -11,7 +11,7 @@ public:
 	{
 		int clock = 0;
 		int numRiders = 1;
-		int currentFloor = 1;
+		//int currentFloor = 1;
 		bool goingUp = 1;
 		int maxRiders = randValue.next_int(20);
 		int maxLevel = randValue.next_int(20) + 1;
@@ -32,15 +32,15 @@ public:
 
 			simElev.update(simElev, clock);
 
-			if (currentFloor == simElev.get_maxfloor())
+			if (simElev.get_floornum() == simElev.get_maxfloor())
 				goingUp = 0;
-			else if (currentFloor == simElev.get_minfloor())
+			else if (simElev.get_floornum() == simElev.get_minfloor())
 				goingUp = 1;
 
 			if (goingUp == 0)
-				currentFloor--;
+				simElev.set_floornum(simElev.get_floornum()-1);
 			else
-				currentFloor++;
+				simElev.set_floornum(simElev.get_floornum() +1);
 		}
 
 		simElev.update(simElev, clock);
