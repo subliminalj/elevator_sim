@@ -10,7 +10,7 @@ void main(void)
 	elevator shaft1(20,.1, rider_list, waiting_list, disembarked);
 	elevator_sim simulation;
 	simulation.run_simulation(0, shaft1);
-	simulation.print_stats(shaft1.get_riders(), shaft1);
+	simulation.print_stats(shaft1.get_disembarked(), shaft1);
 	system("PAUSE");
 
 }

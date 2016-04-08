@@ -15,7 +15,9 @@ public:
 		int maxRiders = rand() % 20 + 1; // randomly determins the number of elevator requests that will be made for the program
 		int maxLevel = rand() % 20 + 1;
 		
-		while (simElev.get_total_served() < maxRiders) // loops until all requests have been picked up and disembarked
+		cout << "MAXRIDERS: " << maxRiders << endl;
+
+		while (simElev.get_total_served() <= maxRiders) // loops until all requests have been picked up and disembarked
 		{
 			rider newRider(clock, rand() % 20 + 1, rand() % 20 + 1, numRiders); //initializes a new rider
 			if (numRiders == 1) // first rider is added on the first iteration of the loop
@@ -29,23 +31,26 @@ public:
 				simElev.add_waiter(newRider, clock);	
 				numRiders++;							
 			}
-			//if (simElev.get_waiting().front().get_current_floor() == simElev.get_floornum())
-			//	simElev.add_rider(newRider, 2);
+
 			simElev.update(simElev, clock);
 
 			//checks if elevator direction needs to be changed
-			if (simElev.get_floornum() == simElev.get_maxfloor()) // if currentfloor = maxfloor set going up to false
+			if (simElev.get_floornum() == simElev.get_maxfloor() || simElev.get_floornum() == 20) // if currentfloor = maxfloor set going up to false
 				simElev.set_up(false);
 			else if (simElev.get_floornum() == simElev.get_minfloor() || simElev.get_floornum() == 1) // if currentfloor = minfloor set going up to true
 				simElev.set_up(true);
-			
+			cout << simElev.get_floornum() << endl;
+
 			if (simElev.get_up() == false) // if going up is false go down one floor
 				simElev.set_floornum(simElev.get_floornum() - 1);
 			else
 				simElev.set_floornum(simElev.get_floornum() + 1); // else go up one floor
 			
+			cout << "TOTAL: " << simElev.get_total_served() << endl;
 			clock++;
+			cout << clock << endl;
 		}
+		cout << "DISEMBARKED: " << simElev.get_disembarked().size() << endl;
 	}
 	
 	int get_clock() { return clock;}
@@ -62,8 +67,8 @@ public:
 			averagewait += it->get_wait_time();
 			averageride += it->get_trip_time();
 		}
-//		averagewait /= disembark.size();
-	//	averageride /= disembark.size();
+		averagewait /= disembark.size();
+		averageride /= disembark.size();
 		cout << "The average wait for each rider was " << averagewait << " seconds." << endl;
 		cout << "The average ride for each rider was " << averageride << " seconds." << endl;
 	}

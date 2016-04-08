@@ -40,7 +40,7 @@ public:
 	std::list<rider> get_disembarked() { return disembarked; }
 	void set_floornum(int floor) { floornum = floor; }
 	void set_up(bool up) { goingup = up; }
-	void add_total_served() { total_served+1; }
+	void add_total_served() { total_served+=1; }
 	void set_arrival_rate(double arrive) { arrival_rate = arrive; }
 	void set_riders(std::list<rider> riders) { rider_list = riders; }
 	void set_waiting(std::list<rider> waiting) { waiting_list = waiting; }
@@ -74,9 +74,11 @@ public:
 				maxfloor = r_addit->get_destination();
 			if (r_addit->get_destination() < minfloor)
 				minfloor = r_addit->get_destination();
+
+			std::cout << "RIDER: "<< maxfloor << " <max min> " << minfloor << std::endl;
 		}
-		add_total_served();
-		std::cout << get_total_served() << std::endl; // TEMPORARY. Just adding total served here for debugging
+		//add_total_served();
+		//std::cout << get_total_served() <<" " << get_up() << std::endl; // TEMPORARY. Just adding total served here for debugging
 	}
 	void elevator::add_waiter(rider& newrider, int wTime) // called when adding new passengers
 	{
@@ -87,6 +89,7 @@ public:
 			maxfloor = newrider.get_destination();
 		if (newrider.get_destination() < minfloor)
 			minfloor = newrider.get_destination();
+		std::cout << "WAITER: " << maxfloor << " <max min> " << minfloor << std::endl;
 	}
 
 
@@ -102,8 +105,7 @@ public:
 				add_rider(*wit, clock);
 				wit->stop_wait_timer(clock);
 				//wit->start_trip_timer(clock); // this would be pointing to the position in the waiter_list. trip time starter moved to add_rider (in the for loop)
-				waiting_list.erase(wit);
-				std::cout << "xxxxx" << std::endl;
+				wit = waiting_list.erase(wit);
 				break;
 			}
 		}
@@ -114,15 +116,16 @@ public:
 			rit->set_current_floor(elev.get_floornum()); // set all passengers current floor to the floor the elevator is on
 		}
 		//DISEMBARK
-		std::list<rider>::iterator dit = rider_list.begin();
-		for (dit = rider_list.begin(); dit != rider_list.end(); dit++) // cycle through passenger list
+		std::list<rider>::iterator rit2 = rider_list.begin();
+		for (rit2 = rider_list.begin(); rit2 != rider_list.end(); rit2++) // cycle through passenger list
 		{
-			if (elev.get_floornum() == dit->get_destination()) // if elev floornum == rider destination
+			if (elev.get_floornum() == rit2->get_destination()) // if elev floornum == rider destination
 			{
-				dit->stop_trip_timer(clock);
-				disembarked.push_back(*dit); // add rider to disembarked list
-				rider_list.erase(dit); // erase rider from passenger list
-				elev.add_total_served(); // add 1 to total served
+				rit2->stop_trip_timer(clock);
+				disembarked.push_back(*rit2); // add rider to disembarked list
+				rit2 = rider_list.erase(rit2); // erase rider from passenger list
+				add_total_served(); // add 1 to total served
+				break;
 			}
 		}
 	}
