@@ -85,7 +85,7 @@ public:
 		waiting_list.push_back(newrider);
 		newrider.start_wait_timer(wTime);
 		std::cout << newrider.get_destination() << " _ " << newrider.get_current_floor() << std::endl;
-		if (newrider.get_destination() > maxfloor)
+		if (newrider.get_destination() > maxfloor )
 			maxfloor = newrider.get_destination();
 		if (newrider.get_destination() < minfloor)
 			minfloor = newrider.get_destination();

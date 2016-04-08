@@ -45,7 +45,7 @@ public:
 				simElev.set_floornum(simElev.get_floornum() - 1);
 			else
 				simElev.set_floornum(simElev.get_floornum() + 1); // else go up one floor
-			
+
 			cout << "TOTAL: " << simElev.get_total_served() << endl;
 			clock++;
 			cout << clock << endl;
@@ -64,8 +64,8 @@ public:
 		//for loop of disembarked to total average wait and average ride
 		for (it = disembark.begin(); it != disembark.end(); it++)
 		{
-			averagewait += it->get_wait_time();
-			averageride += it->get_trip_time();
+			averagewait += 5; //it->get_wait_time();
+			averageride += 5;// it->get_trip_time();
 		}
 		averagewait /= disembark.size();
 		averageride /= disembark.size();
