@@ -59,12 +59,13 @@ public:
 		//adds rider w/o sorting if list is empty
 		if (rider_list.empty())
 		{
-			rider_list.push_back(newrider); 
+			rider_list.push_back(newrider);
 			return;
 		}
 		for (r_addit = rider_list.begin(); r_addit != rider_list.end(); r_addit++)
 		{
-			if (r_addit->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider 
+
+			if (r_addit->get_destination() > newrider.get_destination()) // as we go through the list we look for the first object that has a higher floor number than our rider or an empty list item 
 			{
 				rider_list.insert(r_addit, newrider); // insert rider in order
 				newrider.stop_wait_timer(rTime);
