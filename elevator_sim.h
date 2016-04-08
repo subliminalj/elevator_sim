@@ -12,10 +12,12 @@ public:
 		int numRiders = 1;
 		int currentFloor = 1;
 		bool goingUp = 1;
-		int maxRiders = rand() % 20 + 1;
+		int maxRiders = rand() % 20 + 1; // randomly determins the number of elevator requests that will be made for the program
 		int maxLevel = rand() % 20 + 1;
 		
-		while (numRiders < maxRiders)
+		cout << "MAXRIDERS: " << maxRiders << endl;
+
+		while (simElev.get_total_served() <= maxRiders) // loops until all requests have been picked up and disembarked
 		{
 			rider newRider(clock, rand() % 20 + 1, rand() % 20 + 1, numRiders); //initializes a new rider
 			if (numRiders == 1) // first rider is added on the first iteration of the loop
@@ -24,30 +26,31 @@ public:
 				numRiders++;
 			}
 			srand(clock); //resets rand based on clock value
-			if ( rand()%5 == 0)
-			{
-				simElev.add_waiter(newRider, clock); //adds initialized rider only if randomizer matches 0, allowing the elevator to transverse floors without new riders being generated
-				numRiders++;
+			if ( rand() % 5 == 0 && numRiders <= maxRiders )//adds initialized rider only if randomizer matches 0 and the maxRider limit hasn't been reached, 
+			{												//allowing the elevator to transverse floors without new riders being generated
+				simElev.add_waiter(newRider, clock);	
+				numRiders++;							
 			}
-			//if (newRider.get_current_floor() == simElev.get_floornum())
-			//	simElev.add_rider(newRider, 2);
+
 			simElev.update(simElev, clock);
+
 			//checks if elevator direction needs to be changed
-			if (currentFloor == simElev.get_maxfloor() || currentFloor == maxLevel)
-				goingUp = 0;
-			else if (currentFloor == simElev.get_minfloor() || currentFloor == 1)
-				goingUp = 1;
-			//change floor based on direction
-			if (goingUp == 1)
-				currentFloor++;
+			if (simElev.get_floornum() == simElev.get_maxfloor() || simElev.get_floornum() == 20) // if currentfloor = maxfloor set going up to false
+				simElev.set_up(false);
+			else if (simElev.get_floornum() == simElev.get_minfloor() || simElev.get_floornum() == 1) // if currentfloor = minfloor set going up to true
+				simElev.set_up(true);
+			cout << simElev.get_floornum() << endl;
+
+			if (simElev.get_up() == false) // if going up is false go down one floor
+				simElev.set_floornum(simElev.get_floornum() - 1);
 			else
-				currentFloor--;
-			simElev.set_floornum(currentFloor);
-
+				simElev.set_floornum(simElev.get_floornum() + 1); // else go up one floor
+			
+			cout << "TOTAL: " << simElev.get_total_served() << endl;
 			clock++;
+			cout << clock << endl;
 		}
-		simElev.update(simElev, clock);
-
+		cout << "DISEMBARKED: " << simElev.get_disembarked().size() << endl;
 	}
 	
 	int get_clock() { return clock;}
@@ -64,8 +67,8 @@ public:
 			averagewait += it->get_wait_time();
 			averageride += it->get_trip_time();
 		}
-//		averagewait /= disembark.size();
-	//	averageride /= disembark.size();
+		averagewait /= disembark.size();
+		averageride /= disembark.size();
 		cout << "The average wait for each rider was " << averagewait << " seconds." << endl;
 		cout << "The average ride for each rider was " << averageride << " seconds." << endl;
 	}
