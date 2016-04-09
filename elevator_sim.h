@@ -12,9 +12,6 @@ public:
 		int numRiders = 1;
 		int maxRiders = rand() % 20 + 1; // randomly determines the number of elevator requests that will be made for the program
 		
-		
-		cout << "MAXRIDERS: " << maxRiders << endl;
-
 		while (simElev.get_total_served() < maxRiders) // loops until all requests have been picked up and disembarked
 		{
 			rider newRider(clock, rand() % 20 + 1, rand() % 20 + 1, numRiders); //initializes a new rider
@@ -23,7 +20,6 @@ public:
 				simElev.add_waiter(newRider, ++clock);
 				numRiders++;
 			}
-			srand(clock); //resets rand based on clock value
 			if ( rand() % 5 == 0 && numRiders <= maxRiders )//adds initialized rider only if randomizer matches 0 and the maxRider limit hasn't been reached, 
 			{												//allowing the elevator to transverse floors without new riders being generated
 				simElev.add_waiter(newRider, clock);	
@@ -37,19 +33,15 @@ public:
 				simElev.set_up(false);
 			else if (simElev.get_floornum() == simElev.get_minfloor() || simElev.get_floornum() == 1) // if currentfloor = minfloor set going up to true
 				simElev.set_up(true);
-			
-			cout << simElev.get_floornum() << endl;
 
 			if (simElev.get_up() == false) // if going up is false go down one floor
 				simElev.set_floornum(simElev.get_floornum() - 1);
 			else
 				simElev.set_floornum(simElev.get_floornum() + 1); // else go up one floor
 
-			cout << "TOTAL SERVED: " << simElev.get_total_served() << endl;
 			clock++;
-			cout << clock << endl;
+			srand(clock); //resets rand based on clock value
 		}
-		cout << "DISEMBARKED: " << simElev.get_disembarked().size() << endl;
 	}
 	
 	int get_clock() { return clock;}
@@ -75,7 +67,5 @@ public:
 private:
 	int clock = 0;
 	int total_time = 0;
-	double rate = 0.2;
-	Random randValue;
 };
 

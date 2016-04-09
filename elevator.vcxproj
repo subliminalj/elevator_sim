@@ -148,12 +148,10 @@
   <ItemGroup>
     <ClInclude Include="elevator.h" />
     <ClInclude Include="elevator_sim.h" />
-    <ClInclude Include="Random.h" />
     <ClInclude Include="rider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="elevator.cpp" />
-    <ClCompile Include="elevator_sim.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -53,8 +53,16 @@ public:
 	void elevator::add_rider(rider& newrider, int rTime) // called when adding new passengers
 	{
 		std::list<rider>::iterator r_addit = rider_list.begin(); // init it
-		maxfloor = newrider.get_destination();
-		minfloor = newrider.get_destination();
+
+		if (newrider.get_destination() >= newrider.get_current_floor()) // sets the maxfloor to the highest between the current and destination floors
+			maxfloor = newrider.get_destination();
+		else
+			maxfloor = newrider.get_current_floor();
+
+		if (newrider.get_destination() <= newrider.get_current_floor()) // sets the minfloor to the lowest between the current and destination floors
+			minfloor = newrider.get_destination();
+		else
+			minfloor = newrider.get_current_floor();
 
 		//adds rider w/o sorting if list is empty
 		if (rider_list.empty())
@@ -70,26 +78,36 @@ public:
 				newrider.stop_wait_timer(rTime);
 				newrider.start_trip_timer(rTime);
 			}
-			if (r_addit->get_destination() > maxfloor)
+			if (r_addit->get_destination() > maxfloor) //resets maxfloor if the current destination or current_floor is greater than current maxfloor
 				maxfloor = r_addit->get_destination();
-			if (r_addit->get_destination() < minfloor)
-				minfloor = r_addit->get_destination();
+			if (r_addit->get_current_floor() > maxfloor)
+				maxfloor = r_addit->get_current_floor();
 
-			std::cout << "RIDER: "<< maxfloor << " <max min> " << minfloor << std::endl;
+			if (r_addit->get_destination() < minfloor) //resets minfloor if the current destination or current_floor is less than current maxfloor
+				minfloor = r_addit->get_destination();
+			if (r_addit->get_current_floor() < minfloor)
+				minfloor = r_addit->get_current_floor();
+
+			//std::cout << "RIDER: "<< maxfloor << " <max min> " << minfloor << std::endl;
 		}
-		//add_total_served();
-		//std::cout << get_total_served() <<" " << get_up() << std::endl; // TEMPORARY. Just adding total served here for debugging
 	}
+
 	void elevator::add_waiter(rider& newrider, int wTime) // called when adding new passengers
 	{
 		waiting_list.push_back(newrider); // add rider to waiting list
 		newrider.start_wait_timer(wTime);  // start timer
-		std::cout << newrider.get_destination() << " _ " << newrider.get_current_floor() << std::endl; // output destination and current floor
-		if (newrider.get_destination() > maxfloor) // if rider is going higher than the max floor
-			maxfloor = newrider.get_destination(); // set maxfloor to the destination
-		if (newrider.get_destination() < minfloor) // if rider is going lower than the min floor
-			minfloor = newrider.get_destination(); // set minfloor to the destination
-		std::cout << "WAITER: " << maxfloor << " <max min> " << minfloor << std::endl; // output
+		//std::cout << newrider.get_destination() << " _ " << newrider.get_current_floor() << std::endl; // output destination and current floor
+		
+		if (newrider.get_destination() > maxfloor)	// if rider is on or going higher than the max floor
+			maxfloor = newrider.get_destination();
+		if (newrider.get_destination() > maxfloor)
+			maxfloor = newrider.get_current_floor();// set maxfloor to the rider's highest position (current_floor or destination)
+		
+		if (newrider.get_destination() < minfloor)	// if rider is on or going lower than the min floor
+			minfloor = newrider.get_destination();
+		if (newrider.get_destination() < minfloor)
+			minfloor = newrider.get_current_floor();// set infloor to the rider's lowest position (current_floor or destination)
+		//std::cout << "WAITER: " << maxfloor << " <max min> " << minfloor << std::endl; // output
 	}
 
 
@@ -103,7 +121,7 @@ public:
 			if (get_floornum() == wit->get_current_floor() && get_up() == wit->get_up()) // if elevator is on a floor where someone is waiting and they are headed in the direction of the elevator, pick them up
 			{
 				add_rider(*wit, clock); // add rider from waiting list to rider list
-				wit->stop_wait_timer(clock); // stop wait timer
+				//wit->stop_wait_timer(clock); // stop wait timer
 				wit = waiting_list.erase(wit); // erase the rider from the waiting list
 				break;
 			}
