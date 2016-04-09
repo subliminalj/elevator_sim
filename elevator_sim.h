@@ -10,19 +10,17 @@ public:
 	void elevator_sim::run_simulation(int initclock, elevator& simElev)
 	{
 		int numRiders = 1;
-		int currentFloor = 1;
-		bool goingUp = 1;
-		int maxRiders = rand() % 20 + 1; // randomly determins the number of elevator requests that will be made for the program
-		int maxLevel = rand() % 20 + 1;
+		int maxRiders = rand() % 20 + 1; // randomly determines the number of elevator requests that will be made for the program
+		
 		
 		cout << "MAXRIDERS: " << maxRiders << endl;
 
-		while (simElev.get_total_served() <= maxRiders) // loops until all requests have been picked up and disembarked
+		while (simElev.get_total_served() < maxRiders) // loops until all requests have been picked up and disembarked
 		{
 			rider newRider(clock, rand() % 20 + 1, rand() % 20 + 1, numRiders); //initializes a new rider
 			if (numRiders == 1) // first rider is added on the first iteration of the loop
 			{
-				simElev.add_waiter(newRider, clock);
+				simElev.add_waiter(newRider, ++clock);
 				numRiders++;
 			}
 			srand(clock); //resets rand based on clock value
@@ -39,6 +37,7 @@ public:
 				simElev.set_up(false);
 			else if (simElev.get_floornum() == simElev.get_minfloor() || simElev.get_floornum() == 1) // if currentfloor = minfloor set going up to true
 				simElev.set_up(true);
+			
 			cout << simElev.get_floornum() << endl;
 
 			if (simElev.get_up() == false) // if going up is false go down one floor
@@ -46,7 +45,7 @@ public:
 			else
 				simElev.set_floornum(simElev.get_floornum() + 1); // else go up one floor
 
-			cout << "TOTAL: " << simElev.get_total_served() << endl;
+			cout << "TOTAL SERVED: " << simElev.get_total_served() << endl;
 			clock++;
 			cout << clock << endl;
 		}
@@ -64,8 +63,8 @@ public:
 		//for loop of disembarked to total average wait and average ride
 		for (it = disembark.begin(); it != disembark.end(); it++)
 		{
-			averagewait += 5; //it->get_wait_time();
-			averageride += 5;// it->get_trip_time();
+			averagewait += it->get_wait_time();
+			averageride += it->get_trip_time();
 		}
 		averagewait /= disembark.size();
 		averageride /= disembark.size();
